@@ -78,8 +78,7 @@ function validateUpdateUser(obj) {
   });
   return schema.validate(obj);
 }
-
-module.exports = {
+export default {
   User,
   validateRegisterUser,
   validateLoginUser,
