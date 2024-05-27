@@ -1,10 +1,4 @@
-/**-----------------------------------------------
- * @desc    Register New User
- * @route   /api/auth/register
- * @method  POST
- * @access  public
- ------------------------------------------------*/
-module.exports.registerUserCtrl = asyncHandler(async (req, res) => {
+export const registerUserCtrl = asyncHandler(async (req, res) => {
   const { error } = validateRegisterUser(req.body);
   if (error) {
     return res.status(400).json({ message: error.details[0].message });

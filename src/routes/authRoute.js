@@ -1,3 +1,5 @@
+import { registerUserCtrl, loginUserCtrl } from "../controllers/authController";
+
 // /api/auth/register
 router.post("/register", registerUserCtrl);
 
