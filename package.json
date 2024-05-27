@@ -2,7 +2,7 @@
   "name": "mern-stack",
   "version": "1.0.0",
   "description": "About Blog MERN-STACK",
-  "main": "App.js",
+  "main": "app.js",
   "scripts": {
     "devStart": "nodemon app.js"
   },
