@@ -8,8 +8,8 @@ import {
   getAllUsersCtrl,
   getUserProfileCtrl,
   updateUserProfileCtrl,
+  deleteUserProfileCtrl,
 } from "../controllers/usersController";
-
 // /api/users/profile
 router.route("/profile").get(verifyTokenAndAdmin, getAllUsersCtrl);
 
@@ -17,4 +17,5 @@ router.route("/profile").get(verifyTokenAndAdmin, getAllUsersCtrl);
 router
   .route("/profile/:id")
   .get(validateObjectId, getUserProfileCtrl)
-  .put(validateObjectId, verifyTokenAndOnlyUser, updateUserProfileCtrl);
+  .put(validateObjectId, verifyTokenAndOnlyUser, updateUserProfileCtrl)
+  .delete(validateObjectId, verifyTokenAndAuthorization, deleteUserProfileCtrl);
