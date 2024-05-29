@@ -10,6 +10,7 @@ import path from "path";
 import fs from "fs";
 import { Comment } from "../models/Comment";
 import { Post } from "../models/Post";
+import { User } from "../models/User";
 
 /**-----------------------------------------------
  * @desc    Get All Users Profile

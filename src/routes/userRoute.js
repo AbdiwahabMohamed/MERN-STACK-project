@@ -29,3 +29,5 @@ router
   .get(validateObjectId, getUserProfileCtrl)
   .put(validateObjectId, verifyTokenAndOnlyUser, updateUserProfileCtrl)
   .delete(validateObjectId, verifyTokenAndAuthorization, deleteUserProfileCtrl);
+
+export default router;
