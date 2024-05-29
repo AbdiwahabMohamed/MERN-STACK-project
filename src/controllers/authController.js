@@ -1,10 +1,14 @@
+import asyncHandler from "express-async-handler";
+import bcrypt from "bcryptjs";
+import { User, validateRegisterUser, validateLoginUser } from "./models/User";
+
 /**-----------------------------------------------
  * @desc    Register New User
  * @route   /api/auth/register
  * @method  POST
  * @access  public
  ------------------------------------------------*/
-module.exports.registerUserCtrl = asyncHandler(async (req, res) => {
+export const registerUserCtrl = asyncHandler(async (req, res) => {
   const { error } = validateRegisterUser(req.body);
   if (error) {
     return res.status(400).json({ message: error.details[0].message });
@@ -37,7 +41,7 @@ module.exports.registerUserCtrl = asyncHandler(async (req, res) => {
  * @method  POST
  * @access  public
  ------------------------------------------------*/
-module.exports.loginUserCtrl = asyncHandler(async (req, res) => {
+export const loginUserCtrl = asyncHandler(async (req, res) => {
   const { error } = validateLoginUser(req.body);
   if (error) {
     return res.status(400).json({ message: error.details[0].message });
