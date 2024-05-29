@@ -1,3 +1,16 @@
+import asyncHandler from "express-async-handler";
+import { validateUpdateUser } from "../models/User";
+import bcrypt from "bcryptjs";
+import {
+  cloudinaryUploadImage,
+  cloudinaryRemoveImage,
+  cloudinaryRemoveMultipleImage,
+} from "../utils/cloudinary";
+import path from "path";
+import fs from "fs";
+import { Comment } from "../models/Comment";
+import { Post } from "../models/Post";
+
 /**-----------------------------------------------
  * @desc    Get All Users Profile
  * @route   /api/users/profile
@@ -70,6 +83,49 @@ export const updateUserProfileCtrl = asyncHandler(async (req, res) => {
 export const getUsersCountCtrl = asyncHandler(async (req, res) => {
   const count = await User.count();
   res.status(200).json(count);
+});
+
+/**-----------------------------------------------
+ * @desc    Profile Photo Upload
+ * @route   /api/users/profile/profile-photo-upload
+ * @method  POST
+ * @access  private (only logged in user)
+ ------------------------------------------------*/
+export const profilePhotoUploadCtrl = asyncHandler(async (req, res) => {
+  // 1. Validation
+  if (!req.file) {
+    return res.status(400).json({ message: "no file provided" });
+  }
+
+  // 2. Get the path to the image
+  const imagePath = path.join(__dirname, `../images/${req.file.filename}`);
+
+  // 3. Upload to cloudinary
+  const result = await cloudinaryUploadImage(imagePath);
+
+  // 4. Get the user from DB
+  const user = await User.findById(req.user.id);
+
+  // 5. Delete the old profile photo if exist
+  if (user.profilePhoto?.publicId !== null) {
+    await cloudinaryRemoveImage(user.profilePhoto.publicId);
+  }
+
+  // 6. Change the profilePhoto field in the DB
+  user.profilePhoto = {
+    url: result.secure_url,
+    publicId: result.public_id,
+  };
+  await user.save();
+
+  // 7. Send response to client
+  res.status(200).json({
+    message: "your profile photo uploaded successfully",
+    profilePhoto: { url: result.secure_url, publicId: result.public_id },
+  });
+
+  // 8. Remvoe image from the server
+  fs.unlinkSync(imagePath);
 });
 
 /**-----------------------------------------------

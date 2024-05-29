@@ -1,4 +1,5 @@
 import {
+  verifyToken,
   verifyTokenAndAdmin,
   verifyTokenAndAuthorization,
   verifyTokenAndOnlyUser,
@@ -8,10 +9,19 @@ import {
   getAllUsersCtrl,
   getUserProfileCtrl,
   updateUserProfileCtrl,
+  profilePhotoUploadCtrl,
   deleteUserProfileCtrl,
 } from "../controllers/usersController";
+import { photoUpload } from "../middleware/photoUploud";
+import { validateObjectId } from "../middleware/validateObjectId";
+
 // /api/users/profile
 router.route("/profile").get(verifyTokenAndAdmin, getAllUsersCtrl);
+
+// /api/users/profile/profile-photo-upload
+router
+  .route("/profile/profile-photo-upload")
+  .post(verifyToken, photoUpload.single("image"), profilePhotoUploadCtrl);
 
 // /api/users/profile/:id
 router
