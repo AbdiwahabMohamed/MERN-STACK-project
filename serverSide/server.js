@@ -18,6 +18,13 @@ const server = express();
 
 server.use(express.json());
 
+// Cors Policy
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  })
+);
+
 // Routes
 app.use("/api/auth", authRoute);
 app.use("/api/users", usersRoute);
